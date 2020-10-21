@@ -1,0 +1,25 @@
+git:
+  depth: 3
+
+language: python
+
+python:
+  - "3.6"
+  - "3.7"
+  - "3.8"
+
+before_install:
+  - pip install --upgrade pip setuptools
+  - pip install -r requirements.txt
+
+install:
+  # install the package `tla`
+  - python setup.py sdist
+  - pip install dist/tla-*.tar.gz
+
+script:
+  - cd tests/
+  - nosetests --with-coverage --cover-package=tla
+
+after_success:
+  - coveralls
