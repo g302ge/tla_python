@@ -150,7 +150,7 @@ class NodeTransformer(object):
         return self.nodes.Opaque(node.name)
 
     def visit_Internal(self, node, *arg, **kw):
-        return self.nodes.Internal()
+        return self.nodes.Internal(node.value)
 
     def visit_Apply(self, node, *arg, **kw):
         op = self.visit(node.op, *arg, **kw)
@@ -286,7 +286,7 @@ class NodeTransformer(object):
         quantifier = self.visit(
             node.quantifier, *arg, **kw)
         bounds = _visit_bounds(
-            self, self.bounds, *arg, **kw)
+            self, node.bounds, *arg, **kw)
         expr = self.visit(
             node.expr, *arg, **kw)
         return self.nodes.RigidQuantifier(
