@@ -42,7 +42,7 @@ def _visit_usable(
     return usable
 
 
-class NodeTransformer(object):
+class NodeTransformer:
 
     def __init__(self):
         self.nodes = _Nodes

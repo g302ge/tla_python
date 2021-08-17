@@ -17,7 +17,7 @@ from tla.ast import Nodes as nodes
 #   | Nonfix
 #   | Prefix | Postfix
 #   | Infix of assoc
-class Fixity(object):
+class Fixity:
     pass
 
 
@@ -40,7 +40,7 @@ class Infix(Fixity):
 
 # and assoc =
 #   | Left | Non | Right
-class Assoc(object):
+class Assoc:
     pass
 
 
@@ -65,7 +65,7 @@ dom = {'Logic', 'Sets', 'Modal', 'User'}
 
 
 # type prec = int * int
-class Prec(object):
+class Prec:
     def __init__(self, a, b):
         self.a = a
         self.b = b
@@ -313,7 +313,7 @@ def _generate_tlaops():
 #   dom    : dom ;
 #   defn   : Builtin.builtin option ;
 # }
-class TLAOP(object):
+class TLAOP:
     def __init__(self, name, prec, fixity, dom, defn):
         self.name = name  # str
         self.prec = prec  # Prec

@@ -16,7 +16,7 @@ The implementation is in the module `tla.tokens`.
 #   type token
 #     (** Type of tokens *)
 
-class Token(object):
+class Token:
     """Type of tokens."""
     pass
 
@@ -62,7 +62,7 @@ def pp_print_token(formatter, token):
 #   type prec
 #     (** Abstract type of precedence *)
 
-class Prec(object):
+class Prec:
     """Abstract type of operator precedence."""
     pass
 

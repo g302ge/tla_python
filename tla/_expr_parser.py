@@ -1838,13 +1838,13 @@ def string_or_float_of_expr():
 
 
 
-class Op(object):
+class Op:
     def __init__(self, name, args):
         self.name = name
         self.args = args
 
 
-class Fun(object):
+class Fun:
     def __init__(self, name, args):
         self.name = name
         self.args = args

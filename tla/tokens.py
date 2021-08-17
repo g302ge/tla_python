@@ -22,7 +22,7 @@
 #   and token = { form : token_ ;
 #                 mutable rep : string ;
 #                 loc  : Loc.locus }
-class Token_(object):
+class Token_:
     """Type of tokens."""
 
     def __str__(self):
@@ -120,21 +120,21 @@ class PUNCT(Token_):
 
 
 #     | ST of [`Star | `Plus | `Num of int] * string * int
-class StepStar(object):
+class StepStar:
     def __str__(self):
         return '<*>'
 
     def __eq__(self, other):
         return isinstance(other, StepStar)
 
-class StepPlus(object):
+class StepPlus:
     def __str__(self):
         return '<+>'
 
     def __eq__(self, other):
         return isinstance(other, StepPlus)
 
-class StepNum(object):
+class StepNum:
     def __init__(self, value):
         self.value = value  # int
 
@@ -173,7 +173,7 @@ class ST(Token_):
 #   and token = { form : token_ ;
 #                 mutable rep : string ;
 #                 loc  : Loc.locus }
-class Token(object):
+class Token:
     """Type of tokens."""
 
     def __init__(self, token_, rep, loc):
@@ -275,7 +275,7 @@ def pp_print_token(formatter, token):
 #   (** A precedence is a range of values. Invariant: the first
 #       component must be less than or equal to the second component. *)
 #   type prec = int * int
-# class Prec(object):
+# class Prec:
 #     """Precedence as range of values."""
 #
 #     def __init__(self, n1, n2):

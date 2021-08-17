@@ -46,7 +46,7 @@ logger = logging.getLogger(__name__)
 #     (* user state *)
 #     mutable user_state : 's ;
 #   }
-class Pstate(object):
+class Pstate:
     def __init__(self, source, lastpos, user_state):
         self.source = source  # list
         self.lastpos = lastpos  # Loc.locus
@@ -66,7 +66,7 @@ class Pstate(object):
 #         (** failed with user-provided reason *)
 #     | Internal of string
 #         (** failed with internal reason *)
-class FailureKind(object):
+class FailureKind:
     pass
 
 class Unexpected(FailureKind):
@@ -88,7 +88,7 @@ class Internal(FailureKind):
 #         (** normal failure attempting inapplicable rule *)
 #     | Abort
 #         (** partially applied rule giving unambiguous failure *)
-class Severity(object):
+class Severity:
     pass
 
 class Backtrack(Severity):
@@ -101,7 +101,7 @@ class Abort(Severity):
 # type 'a result =
 #     | Parsed of 'a
 #     | Failed of kind * severity * string option
-class Result(object):
+class Result:
     pass
 
 
@@ -130,7 +130,7 @@ class Failed(Result):
 #     res : 'a result ;
 #     loc : Loc.locus ;
 #   }
-class Reply(object):
+class Reply:
     def __init__(self, res, loc):
         self.res = res  # 'a result  # 'a Result
         self.loc = loc  # Loc.locus
@@ -140,7 +140,7 @@ class Reply(object):
 
 
 # type ('s, 'a) prs = Prs of ('s pstate -> ('s, 'a) reply)
-class Prs(object):
+class Prs:
     """Parser: 's Pstate -> 'a Reply."""
     def __init__(self, value, name=None):
         self.value = value  # 's Pstate -> 'a Reply
@@ -1169,7 +1169,7 @@ def literal(c):
 #     | Atm of 'a
 #     | Opr of prec * 'a opr
 
-class Assoc(object):
+class Assoc:
     pass
 class Left(Assoc):
     pass
@@ -1179,7 +1179,7 @@ class Non(Assoc):
     pass
 
 
-class Item(object):
+class Item:
     pass
 
 class Atm(Item):
@@ -1196,15 +1196,15 @@ class Opr(Item):
 #   | Prefix of (Loc.locus -> 'a -> 'a)
 #   | Postfix of (Loc.locus -> 'a -> 'a)
 #   | Infix of assoc * (Loc.locus -> 'a -> 'a -> 'a)
-class Prefix(object):
+class Prefix:
     def __init__(self, value):
         self.value = value  # location.Locus -> 'a -> 'a
 
-class Postfix(object):
+class Postfix:
     def __init__(self, value):
         self.value = value  # location.Locus -> 'a -> 'a
 
-class Infix(object):
+class Infix:
     def __init__(self, assoc, value):
         self.assoc = assoc
         self.value = value  # location.Locus -> 'a -> 'a -> 'a

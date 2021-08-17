@@ -22,7 +22,7 @@ def setdefault(value, default):
 #       err_exps : string list ;
 #       err_msgs : string list ;
 #       err_ints : string list }
-class Error_(object):
+class Error_:
     def __init__(
             self,
             err_unex=None,
@@ -36,7 +36,7 @@ class Error_(object):
 
 
 # type error = Error of error_ * Loc.locus
-class Error(object):
+class Error:
     def __init__(self, error_, locus):
         self.error_ = error_
         self.locus = locus

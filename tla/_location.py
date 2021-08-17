@@ -12,7 +12,7 @@
 #               bol : int ;
 #               col : int ;
 #             }
-class Pt(object):
+class Pt:
     """Point in file."""
 
     def __init__(self, line, bol, col):
@@ -63,7 +63,7 @@ class Pt(object):
 #                stop  : pt ;
 #                file : string ;
 #              }
-class Locus(object):
+class Locus:
     """Location in file."""
 
     def __init__(self, start, stop, filename):

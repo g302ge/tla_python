@@ -96,12 +96,12 @@ def annotate(supp, meth, x):
 # type step_or_qed =
 #   | STEP of step
 #   | QED of proof
-class STEP(object):
+class STEP:
     def __init__(self, step):
         self.step = step
 
 
-class QED(object):
+class QED:
     def __init__(self, proof):
         self.proof = proof
 

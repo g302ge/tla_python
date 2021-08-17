@@ -18,7 +18,7 @@ from tla import tokens
 #   ledge : int ;
 #   clean : bool ;
 # }
-class Pcx(object):
+class Pcx:
     """State carried by the parsers."""
 
     def __init__(self, ledge, clean):
