@@ -1,5 +1,4 @@
-[![Build Status][build_img]][travis]
-[![Coverage Status][coverage]][coveralls]
+[![Build Status][build_img]][github_actions]
 
 
 About
@@ -91,7 +90,5 @@ License
 [BSD-3](https://opensource.org/licenses/BSD-3-Clause), see `LICENSE` file.
 
 
-[build_img]: https://travis-ci.org/tlaplus/tla_python.svg?branch=main
-[travis]: https://travis-ci.org/tlaplus/tla_python
-[coverage]: https://coveralls.io/repos/tlaplus/tla_python/badge.svg?branch=main
-[coveralls]: https://coveralls.io/r/tlaplus/tla_python?branch=main
+[build_img]: https://github.com/tlaplus/tla_python/actions/workflows/main.yml/badge.svg?branch=main
+[github_actions]: https://github.com/tlaplus/tla_python/actions

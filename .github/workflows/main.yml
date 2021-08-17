@@ -1,0 +1,42 @@
+---
+# configuration for GitHub Actions
+name: tla tests
+on:
+    push:
+    pull_request:
+    schedule:
+        - cron: '42 5 5 * *'
+jobs:
+    build:
+        name: Build
+        runs-on: ubuntu-20.04
+        strategy:
+            matrix:
+                python-version: [3.8, 3.9, 3.10.0-rc.1]
+        steps:
+            - uses: actions/checkout@v2
+            - name: Set up Python ${{ matrix.python-version }}
+              uses: actions/setup-python@v2
+              with:
+                  python-version: ${{ matrix.python-version }}
+            - name: Update Python environment
+              run: |
+                pip install --upgrade pip setuptools
+            - name: Install the package `tla`
+              run: |
+                set -o posix
+                echo "Exported environment variables:"
+                export -p
+                python setup.py sdist
+                pip install dist/tla-*.tar.gz
+            - name: Install test dependencies
+              run: |
+                pip install -r requirements.txt
+            - name: Run `omega` tests
+              run: |
+                set -o posix
+                echo "Exported environment variables:"
+                export -p
+                # run tests
+                cd tests/
+                pytest -v --continue-on-collection-errors .
