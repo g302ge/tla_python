@@ -208,9 +208,7 @@ class Nodes(object):
                 # form of parentheses
 
         def __str__(self):
-            return 'Parens({e}, {p})'.format(
-                e=str(self.expr),
-                p=str(self.pform))
+            return f'Parens({self.expr}, {self.pform})'
 
     class Syntax(object):
         """Signifies actual parentheses in source syntax."""

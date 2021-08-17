@@ -268,8 +268,9 @@ def _run_parser(ap, text):
 def _tokenize(text):
     """Count tokens and lines when tokenizing."""
     tokens = lex.tokenize(text, omit_preamble=False)
-    print('The input has {n} tokens.'.format(n=len(tokens)))
-    print('The input has {n} lines.'.format(n=text.count('\n')))
+    count = text.count('\n')
+    print(f'The input has {len(tokens)} tokens.')
+    print(f'The input has {count} lines.')
     # pprint.pprint(tokens)
     return tokens
 

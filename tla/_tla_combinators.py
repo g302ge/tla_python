@@ -26,9 +26,7 @@ class Pcx(object):
         self.clean = clean
 
     def __repr__(self):
-        return 'Pcx({ledge}, {clean})'.format(
-            ledge=self.ledge,
-            clean=self.clean)
+        return f'Pcx({self.ledge}, {self.clean})'
 
 
 init = Pcx(-1, True)

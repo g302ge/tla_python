@@ -92,8 +92,7 @@ numeral  = '[0-9]'
 # namechar = letter | numeral | _
 namechar = '[a-zA-Z0-9_]'.format(
     letter=letter, numeral=numeral)
-name = '({namechar})*{letter}({namechar})*'.format(
-    namechar=namechar, letter=letter)
+name = f'({namechar})*{letter}({namechar})*'
 
 
 class Lexer(object):
@@ -222,8 +221,7 @@ class Lexer(object):
 
     def t_multilinecomment_error(self, t):
         raise ValueError(
-            'Illegal character "{s}"'.format(
-                s=t.value[0]))
+            f'Illegal character "{t.value[0]}"')
 
     t_multilinecomment_ignore = ''
 
@@ -269,8 +267,7 @@ class Lexer(object):
     #       ('.'* as dots)
     #   { [ ST (`Num (int_of_string num),
     #       lab, String.length dots) ] }
-    step_number = r'<{numeral}+>{namechar}*\.*'.format(
-        numeral=numeral, namechar=namechar)
+    step_number = rf'<{numeral}+>{namechar}*\.*'
 
     @ply.lex.TOKEN(step_number)
     def t_STEP_NUMBER(self, t):
@@ -297,8 +294,7 @@ class Lexer(object):
     # (* numbers *)
     # | (numeral+ as ch) '.' (numeral+ as man)
     #   { [ NUM (ch, man) ] }
-    float = r'{numeral}+\.{numeral}+'.format(
-        numeral=numeral)
+    float = rf'{numeral}+\.{numeral}+'
 
     @ply.lex.TOKEN(float)
     def t_FLOAT(self, t):
@@ -306,7 +302,7 @@ class Lexer(object):
 
     # | (numeral+ as i)
     #   { [ NUM (i, "") ] }
-    integer = '{numeral}+'.format(numeral=numeral)
+    integer = f'{numeral}+'
 
     @ply.lex.TOKEN(integer)
     def t_INTEGER(self, t):
@@ -367,8 +363,7 @@ class Lexer(object):
 
     def t_string_error(self, t):
         raise ValueError(
-            'Illegal character "{s}"'.format(
-                s=t.value[0]))
+            f'Illegal character "{t.value[0]}"')
 
     t_string_ignore = ''
 
@@ -460,7 +455,7 @@ class Lexer(object):
 
     def t_error(self, t):
         logger.error(
-            'Illegal character "{s}"'.format(s=t.value[0]))
+            f'Illegal character "{t.value[0]}"')
         t.lexer.skip(1)
 
 

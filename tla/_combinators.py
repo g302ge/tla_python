@@ -54,11 +54,8 @@ class Pstate(object):
 
     def __repr__(self):
         return (
-            'Pstate({src}, {pos}, '
-            '{user_state})').format(
-                src=self.source,
-                pos=self.lastpos,
-                user_state=self.user_state)
+            f'Pstate({self.source}, {self.lastpos}, '
+            f'{self.user_state})')
 
 
 #   (* kind of failure *)
@@ -124,10 +121,9 @@ class Failed(Result):
 
     def __repr__(self):
         return (
-            'Failed({kind}, {v}, {s})').format(
-                kind=self.kind,
-                v=self.severity,
-                s=self.string)
+            f'Failed({self.kind}, '
+            f'{self.severity}, '
+            f'{self.string})')
 
 
 # type ('s, 'a) reply = {
@@ -140,10 +136,7 @@ class Reply(object):
         self.loc = loc  # Loc.locus
 
     def __repr__(self):
-        return (
-            'Reply({res}, {loc})').format(
-                res=self.res,
-                loc=self.loc)
+        return f'Reply({self.res}, {self.loc})'
 
 
 # type ('s, 'a) prs = Prs of ('s pstate -> ('s, 'a) reply)
@@ -330,9 +323,9 @@ def debug(msg):
     def f(pst):
         err = _error.error(pst.lastpos)
         s = 'EOF' if not pst.source else intf.rep(pst.source[0])
-        dbg_msg = '[debug] following token is {s}'.format(s=s)
+        dbg_msg = f'[debug] following token is {s}'
         _error.err_add_message(dbg_msg, err)
-        err = error.err_add_message('[debug] {s}'.format(s=msg), err)
+        err = error.err_add_message(f'[debug] {msg}', err)
         _error.print_error(False, None, err)
         return exec_(succeed(None), pst)
     return Prs(f)
@@ -1034,9 +1027,7 @@ class ListSlice(collections.abc.Sequence):
         self.start = start
 
     def __repr__(self):
-        return 'ListSlice({a}, {s})'.format(
-            a=self.alist,
-            s=self.start)
+        return f'ListSlice({self.alist}, {self.start})'
 
     def __len__(self):
         return len(self.alist) - self.start
@@ -1446,8 +1437,7 @@ def resolve(item_prs):
         elif not stack:
         # | [] ->
             return lookahead(any_()) <<shift_eq>> (lambda t:
-                fail('required expression(s) missing before {r}'.format(
-                    r=intf.rep(t))))
+                fail(f'required expression(s) missing before {intf.rep(t)}'))
         # _ ->
         else:
             try:

@@ -56,9 +56,7 @@ class NodeTransformer(object):
         Override the `visit_*` methods to change
         the visitor's behavior, by subclassing it.
         """
-        method_name = (
-            'visit_{class_name}').format(
-                class_name=type(node).__name__)
+        method_name = f'visit_{type(node).__name__}'
         method = getattr(self, method_name)
         return method(node, *arg, **kw)
 

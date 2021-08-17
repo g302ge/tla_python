@@ -216,7 +216,7 @@ def choice_fix_operators(b, p, pts):
     ops = [fixities[p]]
     assert isinstance(ops, list), ops
     if not ops:
-        return fail('unknown operator {p}'.format(p=p))
+        return fail(f'unknown operator {p}')
     assert ops, ops
     def non_test(op):
         if (isinstance(op, pco.Opr) and
@@ -1732,9 +1732,9 @@ def float_():
         yield (
         intf.number()
         <<apply>> (lambda m_n:
-            '{m}.{n}'.format(m=m_n[0], n=m_n[1])
+            f'{m_n[0]}.{m_n[1]}'
             if m_n[1] == 'None' else
-            '{m}'.format(m=m_n[0]))
+            f'{m_n[0]}')
     )
 
 

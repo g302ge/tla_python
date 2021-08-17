@@ -323,14 +323,8 @@ class TLAOP(object):
 
     def __repr__(self):
         return (
-            'TLAOP({name}, {prec}, '
-            '{fixity}, {dom}, {defn})'
-            ).format(
-                name=self.name,
-                prec=self.prec,
-                fixity=self.fix,
-                dom=self.dom,
-                defn=self.defn)
+            f'TLAOP({self.name}, {self.prec}, '
+            f'{self.fix}, {self.dom}, {self.defn})')
 
 
 # let optable =

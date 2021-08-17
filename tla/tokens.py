@@ -26,9 +26,7 @@ class Token_(object):
     """Type of tokens."""
 
     def __str__(self):
-        return '{t}({s})'.format(
-            t=type(self).__name__,
-            s=self.string)
+        return f'{type(self).__name__}({self.string})'
 
     def __eq__(self, other):
         return self.string == other.string
@@ -88,9 +86,7 @@ class NUM(Token_):
         if self.string2 is None:
             return self.string1
         else:
-            return '{a}.{b}'.format(
-                a=self.string1,
-                b=self.string2)
+            return f'{self.string1}.{self.string2}'
 
     def __eq__(self, other):
         return (
@@ -143,8 +139,8 @@ class StepNum(object):
         self.value = value  # int
 
     def __str__(self):
-        return '<{level}>'.format(
-            level=self.value)
+        level = self.value
+        return f'<{level}>'
 
     def __eq__(self, other):
         return (isinstance(other, StepNum)
@@ -186,9 +182,7 @@ class Token(object):
         self.loc = loc  # location.Locus
 
     def __repr__(self):
-        return 'Token({r}, {loc})'.format(
-            r=rep(self),
-            loc=repr(self.loc))
+        return f'Token({rep(self)}, {self.loc!r})'
 
     def __eq__(self, other):
         return self.form == other.form
@@ -254,8 +248,7 @@ def rep(token):
         elif isinstance(kind, StepNum):
             return '<' + kind.value + '>' + form.string + (form.i * '.')
     else:
-        raise Exception('Unknown case of token {form}'.format(
-            form=form))
+        raise Exception(f'Unknown case of token {form}')
 
 
 #   let locus t = t.loc

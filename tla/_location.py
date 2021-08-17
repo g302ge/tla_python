@@ -23,9 +23,7 @@ class Pt(object):
     # let string_of_pt ?(file="<nofile>") l =
     #   string_of_locus { start = l ; stop = l ; file = file }
     def __str__(self):
-        return 'line {line}, character {col}'.format(
-            line=self.line,
-            col=self.col)
+        return f'line {self.line}, character {self.col}'
 
     def __eq__(self, other):
         if other is None:
@@ -75,14 +73,9 @@ class Locus(object):
 
     def __repr__(self):
         return (
-            '{fname}: '
-            'line {start_line}, column {start_column} to '
-            'line {stop_line}, column {stop_column}').format(
-                fname=self.file,
-                start_line=self.start.line,
-                start_column=self.start.column,
-                stop_line=self.stop.line,
-                stop_column=self.stop.column)
+            f'{self.file}: '
+            f'line {self.start.line}, column {self.start.column} to '
+            f'line {self.stop.line}, column {self.stop.column}')
 
     def __copy__(self):
         return Locus(
@@ -119,8 +112,8 @@ class Locus(object):
     #     } with _ -> unknown
     def merge(self, other):
         if self.file != other.file:
-            raise ValueError('different files: {f1}, {f2}'.format(
-                f1=self.file, f2=other.file))
+            raise ValueError(
+                f'different files: {self.file}, {other.file}')
         if self.start.offset <= other.start.offset:
             start = self.start
         else:

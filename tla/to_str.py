@@ -142,16 +142,14 @@ def _format_bounds(
         if isinstance(dom, Nodes.Domain):
             bound = dom.expr.to_str(
                 *arg, width=width, **kw)
-            bound = '{name} \\in {b}'.format(
-                name=name, b=bound)
+            bound = f'{name} \\in {bound}'
             old_dom = dom
         elif isinstance(dom, Nodes.NoDomain):
             bound = str(name)
         elif isinstance(dom, Nodes.Ditto):
             bound = old_dom.expr.to_str(
                 *arg, width=width, **kw)
-            bound = '{name} \\in {b}'.format(
-                name=name, b=bound)
+            bound = f'{name} \\in {bound}'
         else:
             raise ValueError(dom)
         bounds.append(bound)
@@ -239,7 +237,7 @@ def _print_overwide_lines(text, max_width):
     widest line in `text`.
     """
     width, _ = _box_dimensions(text)
-    print('Width of text: {w}'.format(w=width))
+    print(f'Width of text: {width}')
     lines = text.split('\n')
     for i, line in enumerate(lines):
         if len(line) > max_width:
@@ -419,11 +417,7 @@ class Nodes(_Nodes):
                 fixity = None
             if isinstance(fixity, _optable.Infix):
                 assert len(arg_strings) == 2, arg_strings
-                res = (
-                    '{arg1} {op} {arg2}').format(
-                        op=op_str,
-                        arg1=arg_strings[0],
-                        arg2=arg_strings[1])
+                res = f'{arg_strings[0]} {op_str} {arg_strings[1]}'
                 res_width, _ = _box_dimensions(res)
                 if res_width > width:
                     res = _glue_prefix_box(
@@ -435,28 +429,19 @@ class Nodes(_Nodes):
                 return res
             elif isinstance(fixity, _optable.Prefix):
                 assert len(arg_strings) == 1, arg_strings
-                return (
-                    '{op} {arg}').format(
-                        op=op_str,
-                        arg=arg_strings[0])
+                return f'{op_str} {arg_strings[0]}'
             elif isinstance(fixity, _optable.Postfix):
                 assert len(arg_strings) == 1, arg_strings
-                return (
-                    '{arg}{op}').format(
-                        op=op_str,
-                        arg=arg_strings[0])
+                return f'{arg_strings[0]}{op_str}'
             else:
                 pass
             args_str = ', '.join(arg_strings)
-            res = '{op}({args})'.format(
-                op=op_str, args=args_str)
+            res = f'{op_str}({args_str})'
             res_width, _ = _box_dimensions(res)
             if res_width > width:
                 args_str = ',\n'.join(
                     '    ' + arg for arg in arg_strings)
-                res = '{op}(\n{args})'.format(
-                        op=op_str,
-                        args=args_str)
+                res = f'{op_str}(\n{args_str})'
             return res
 
     class Function(_Nodes.Function):
@@ -503,7 +488,7 @@ class Nodes(_Nodes):
         def to_str(self, *arg, width=None, **kw):
             args = ['_'] * self.arity
             s = ', '.join(args)
-            return '({s})'.format(s=s)
+            return f'({s})'
 
     class Lambda(_Nodes.Lambda):
         def to_str(self, *arg, width=None, **kw):
@@ -521,11 +506,9 @@ class Nodes(_Nodes):
             action = self.action.to_str(*arg, **kw)
             sub = self.subscript.to_str(*arg, **kw)
             if isinstance(self.op, Nodes.BoxOp):
-                res = '[][{a}]_{sub}'.format(
-                    a=action, sub=sub)
+                res = f'[][{action}]_{sub}'
             elif isinstance(self.op, Nodes.DiamondOp):
-                res = '<><<{a}>>_{sub}'.format(
-                    a=action, sub=sub)
+                res = f'<><<{action}>>_{sub}'
             else:
                 raise ValueError(self.op)
             return res
@@ -535,11 +518,9 @@ class Nodes(_Nodes):
             action = self.action.to_str(*arg, **kw)
             sub = self.subscript.to_str(*arg, **kw)
             if isinstance(self.op, Nodes.BoxOp):
-                res = '[{a}]_{sub}'.format(
-                    a=action, sub=sub)
+                res = f'[{action}]_{sub}'
             elif isinstance(self.op, Nodes.DiamondOp):
-                res = '<<{a}>>_{sub}'.format(
-                    a=action, sub=sub)
+                res = f'<<{action}>>_{sub}'
             else:
                 raise ValueError(self.op)
             return res
@@ -555,9 +536,7 @@ class Nodes(_Nodes):
             expr = self.expr.to_str(
                 *arg, width=width, **kw)
             string = str(self.string)
-            return '{expr}.{string}'.format(
-                expr=expr,
-                string=string)
+            return f'{expr}.{string}'
 
     class Parens(_Nodes.Parens):
         def to_str(self, *arg, width=None, **kw):
@@ -565,7 +544,7 @@ class Nodes(_Nodes):
             expr = self.expr.to_str(
                 *arg, width=new_width, **kw)
             if isinstance(self.pform, Nodes.Syntax):
-                return '({e})'.format(e=expr)
+                return f'({expr})'
             elif isinstance(self.pform, Nodes.IndexedLabel):
                 label = self.pform.to_str(*arg, **kw)
                 return f'{label}::{expr}'
@@ -601,11 +580,8 @@ class Nodes(_Nodes):
             else_ = self.else_.to_str(
                 *arg, width=width, **kw)
             res = (
-                'IF {test} THEN {then} '
-                'ELSE {else_}').format(
-                    test=test,
-                    then=then,
-                    else_=else_)
+                f'IF {test} THEN {then} '
+                f'ELSE {else_}')
             res_width, _ = _box_dimensions(res)
             if res_width > width:
                 res = _glue_prefix_box(
@@ -835,13 +811,10 @@ class Nodes(_Nodes):
             for name, e in self.items:
                 expr = e.to_str(
                     *arg, width=width, **kw)
-                item = '{name} |-> {expr}'.format(
-                    name=name,
-                    expr=expr)
+                item = f'{name} |-> {expr}'
                 items.append(item)
             items_str = ', '.join(items)
-            res = '[{items}]'.format(
-                items=items_str)
+            res = f'[{items_str}]'
             return res
 
     class RecordSet(_Nodes.RecordSet):
@@ -850,24 +823,21 @@ class Nodes(_Nodes):
             for name, e in self.items:
                 expr = e.to_str(
                     *arg, width=width, **kw)
-                item = '{name}: {expr}'.format(
-                    name=name,
-                    expr=expr)
+                item = f'{name}: {expr}'
                 items.append(item)
             items_str = ', '.join(items)
-            res = '[{items}]'.format(
-                items=items_str)
+            res = f'[{items_str}]'
             return res
 
     class Except_dot(_Nodes.Except_dot):
         def to_str(self, *arg, width=None, **kw):
-            return '.{name}'.format(name=self.name)
+            return f'.{self.name}'
 
     class Except_apply(_Nodes.Except_apply):
         def to_str(self, *arg, width=None, **kw):
             expr = self.expr.to_str(
                 *arg, width=width, **kw)
-            return '[{expr}]'.format(expr=expr)
+            return f'[{expr}]'
 
     class Except(_Nodes.Except):
         def to_str(self, *arg, width=None, **kw):
@@ -945,7 +915,7 @@ class Nodes(_Nodes):
                 e.to_str(*arg, width=width, **kw)
                 for e in self.exprs]
             tpl = ', '.join(expr_str)
-            tpl = '<<{t}>>'.format(t=tpl)
+            tpl = f'<<{tpl}>>'
             tpl_width, _ = _box_dimensions(tpl)
             if tpl_width > width:
                 tpl = ',\n'.join(expr_str)
@@ -972,16 +942,14 @@ class Nodes(_Nodes):
 
     class String(_Nodes.String):
         def to_str(self, *arg, width=None, **kw):
-            return '{s}'.format(s=self.value)
+            return f'{self.value}'
 
     class Number(_Nodes.Number):
         def to_str(self, *arg, **kw):
             if self.mantissa is None:
                 return str(self.integer)
             else:
-                return '{i}.{m}'.format(
-                    i=self.integer,
-                    m=self.mantissa)
+                return f'{self.integer}.{self.mantissa}'
 
     class Fairness(_Nodes.Fairness):
         def to_str(self, *arg, width=None, **kw):
@@ -1075,8 +1043,7 @@ class Nodes(_Nodes):
 
     class Flex(_Nodes.Flex):
         def to_str(self, *arg, width=None, **kw):
-            return 'VARIABLE {name}'.format(
-                name=self.name)
+            return f'VARIABLE {self.name}'
 
     class Fresh(_Nodes.Fresh):
         def to_str(self, *arg, width=None, **kw):
@@ -1367,8 +1334,7 @@ class Nodes(_Nodes):
             if self.name is None:
                 theorem = 'THEOREM'
             else:
-                theorem = 'THEOREM {name} =='.format(
-                    name=self.name)
+                theorem = f'THEOREM {self.name} =='
             res = _glue_prefix_box(
                 theorem,
                 '\n' + body,

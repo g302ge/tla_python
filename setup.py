@@ -14,15 +14,14 @@ PROJECT_URLS = {
     'Bug Tracker': 'https://github.com/tlaplus/tla_python/issues',
     'Documentation':
         'https://github.com/tlaplus/tla_python/blob/main/doc.md'}
-VERSION_FILE = '{name}/_version.py'.format(name=PACKAGE_NAME)
+VERSION_FILE = f'{PACKAGE_NAME}/_version.py'
 MAJOR = 0
 MINOR = 0
 MICRO = 2
-VERSION = '{major}.{minor}.{micro}'.format(
-    major=MAJOR, minor=MINOR, micro=MICRO)
+VERSION = f'{MAJOR}.{MINOR}.{MICRO}'
 VERSION_FILE_TEXT = (
     '# This file was generated from `setup.py`\n'
-    "version = '{version}'\n").format(version=VERSION)
+    f"version = '{VERSION}'\n")
 PYTHON_REQUIRES = '>=3.8'
 INSTALL_REQUIRES = [
     'infix >= 1.2',

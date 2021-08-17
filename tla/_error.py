@@ -86,7 +86,7 @@ def print_error(verbose, ouch, error):
     if error.error_.err_unex is None:
         unexp = ''
     else:
-        unexp = 'Unexpected {s}\n'.format(s=error.error_.err_unex)
+        unexp = f'Unexpected {error.error_.err_unex}\n'
     if not error.error_.err_exps:
         exps = ''
     else:
@@ -94,7 +94,7 @@ def print_error(verbose, ouch, error):
             s='\n'.join(error.error_.err_exps))
     if verbose:
         ints = ''.join(
-            '[Internal] {i}\n'.format(i=i)
+            f'[Internal] {i}\n'
             for i in error.error_.err_ints)
     else:
         ints = ''
