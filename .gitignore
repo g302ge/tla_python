@@ -1,6 +1,6 @@
 .pytest_cache/
 .coverage
-tla/_version.py
+/tla/_version.py
 __tlacache__/
 .DS_Store
 ._.DS_Store
@@ -18,9 +18,9 @@ __pycache__/
 *.so
 *.html
 *.tar.gz
-dist/*
-build/*
-*.egg-info
+/dist/
+/build/
+*.egg-info/
 *.swp
 *.tags
 *.xml
