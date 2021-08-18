@@ -646,7 +646,7 @@ class NodeTransformer:
 
     def visit_Export(
             self, node, *arg, **kw):
-        return self.nodes.Exports()
+        return self.nodes.Export()
 
     def visit_User(
             self, node, *arg, **kw):
