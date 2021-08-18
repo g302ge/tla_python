@@ -362,7 +362,7 @@ class NodeTransformer:
         op = self.visit(
             node.op, *arg, **kw)
         exprs = list()
-        for expr in self.exprs:
+        for expr in node.exprs:
             expr_ = self.visit(
                 expr, *arg, **kw)
             exprs.append(expr_)
@@ -587,7 +587,7 @@ class NodeTransformer:
 
     def visit_OperatorDef(
             self, node, *arg, **kw):
-        name = copy.copy(name)
+        name = copy.copy(node.name)
         expr = self.visit(
             node.expr, *arg, **kw)
         return self.nodes.OperatorDef(
