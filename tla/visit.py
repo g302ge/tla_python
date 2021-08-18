@@ -10,6 +10,8 @@
 # https://github.com/tlaplus/tlapm/blob/master/src/module/m_t.ml
 # https://github.com/tlaplus/tlapm/blob/master/src/proof/p_t.ml
 # https://github.com/tlaplus/tlapm/blob/master/src/proof/p_parser.ml
+import copy
+
 from tla.to_str import Nodes as _Nodes
 
 
