@@ -386,7 +386,7 @@ class Lexer:
         r'|\\odot|\\cap|\\intersect'
         r'|\\cup|\\union|\\equiv|\\o|\\circ|\\X|\\times'
         r'|=>|\-\+\->|/\\|\\land'
-        r'|\\/|\\lor|/=|\-\||::=|:=|<|=|=\||>|\\approx'
+        r'|\\/|\\lor|\-\||::=|:=|<|=|=\||>|\\approx'
         r'|\\asymp|\\cong|\\doteq|\\gg|\\notin'
         r'|\\ll|\\preceq|\\prec'
         r'|\\propto|\\sim|\\simeq'
