@@ -385,22 +385,22 @@ class Lexer:
         r'|\\oplus|\\ominus|\\otimes|\\oslash'
         r'|\\odot|\\cap|\\intersect'
         r'|\\cup|\\union|\\equiv|\\o|\\circ|\\X|\\times'
-        r'|=>|-\+->|/\\|\\land'
-        r'|\\/|\\lor|/=|-\||::=|:=|<|=|=\||>|\\approx'
+        r'|=>|\-\+\->|/\\|\\land'
+        r'|\\/|\\lor|/=|\-\||::=|:=|<|=|=\||>|\\approx'
         r'|\\asymp|\\cong|\\doteq|\\gg|\\notin'
         r'|\\ll|\\preceq|\\prec'
         r'|\\propto|\\sim|\\simeq'
         r'|\\sqsubseteq|\\sqsubset|\\sqsupseteq'
         r'|\\sqsupset|\\subseteq|\\subset'
         r'|\\succeq|\\succ|\\supseteq|\\supset'
-        r'|\|-|\|=|\\cdot|\@\@|:>|<:|\\in|\\'
+        r'|\|\-|\|=|\\cdot|@@|:>|<:|\\in|\\'
         r'|\.\.\.|\.\.|!!|\#\#|\$\$|\$|\?\?|\\sqcap'
         r'|\\sqcup|\\uplus|\\wr|\+\+|\+|%%|%|\|\|'
-        r'|\||--|-|&&|&|\*\*|\*|/|//|\\bigcirc|\\bullet'
+        r'|\||\-\-|\-|\&\&|\&|\*\*|\*|/|//|\\bigcirc|\\bullet'
         r'|\\div|\\star|\^\^|\^')
 
     def t_INFIX_OPERATOR_LEADSTO(self, t):
-        r'~>'
+        r'\~>'
         t.type = 'INFIX_OPERATOR'
         return t
 
@@ -475,7 +475,7 @@ def _lex(data):
 
 
 def _omit_preamble(data):
-    regex = r'----(-)*\s*MODULE'
+    regex = r'\-\-\-\-(\-)*\s*MODULE'
     match = re.search(regex, data)
     n = match.start()
     return data[n:]
