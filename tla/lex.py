@@ -396,7 +396,7 @@ class Lexer:
         r'|\|\-|\|=|\\cdot|@@|:>|<:|\\in|\\'
         r'|\.\.\.|\.\.|!!|\#\#|\$\$|\$|\?\?|\\sqcap'
         r'|\\sqcup|\\uplus|\\wr|\+\+|\+|%%|%|\|\|'
-        r'|\||\-\-|\-|\&\&|\&|\*\*|\*|/|//|\\bigcirc|\\bullet'
+        r'|\||\-\-|\-|\&\&|\&|\*\*|\*|//|/|\\bigcirc|\\bullet'
         r'|\\div|\\star|\^\^|\^')
 
     def t_INFIX_OPERATOR_LEADSTO(self, t):
