@@ -1327,6 +1327,20 @@ class Nodes(_Nodes):
     class PreQed(_Nodes.PreQed):
         pass
 
+    class Axiom(_Nodes.Axiom):
+
+        def to_str(self, *arg, width=None, **kw):
+            expr_str = self.expr.to_str(
+                *arg, width=width, **kw)
+            if self.name is None:
+                axiom = 'AXIOM'
+            else:
+                axiom = f'AXIOM {self.name} =='
+            return _glue_prefix_box(
+                axiom,
+                '\n' + expr_str,
+                indent_width=INDENT_WIDTH)
+
     class Theorem(_Nodes.Theorem):
         def to_str(self, *arg, width=None, **kw):
             body = self.body.to_str(

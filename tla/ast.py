@@ -800,6 +800,13 @@ class Nodes:
     class PreQed:
         """`QED` statement."""
 
+    class Axiom:
+        """`AXIOM`."""
+
+        def __init__(self, name, expr):
+            self.name = name
+            self.expr = expr
+
     class Theorem:
         """`THEOREM` together with its proof.
 

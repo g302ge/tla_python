@@ -739,6 +739,17 @@ class NodeTransformer:
             self, node, *arg, **kw):
         return self.nodes.Implicit()
 
+    def visit_Axiom(
+            self, node, *arg, **kw):
+        if node.name is None:
+            name = None
+        else:
+            name = copy.copy(node.name)
+        expr = self.visit(
+            node.expr, *arg, **kw)
+        return self.nodes.Axiom(
+            name, expr)
+
     def visit_Theorem(
             self, node, *arg, **kw):
         if node.name is None:

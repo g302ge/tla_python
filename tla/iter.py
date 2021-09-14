@@ -749,6 +749,14 @@ class Nodes(_Nodes):
     class PreQed(_Nodes.PreQed):
         pass
 
+    class Axiom(_Nodes.Axiom):
+        def visit(
+                self, *arg,
+                visitor=None, **kw):
+            self.expr.visit(
+                *arg, visitor=visitor, **kw)
+            return visitor(self)
+
     class Theorem(_Nodes.Theorem):
         def visit(self, *arg, visitor=None, **kw):
             self.body.visit(
