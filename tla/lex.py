@@ -603,7 +603,8 @@ def find_column(input, token):
 def _print_lextoken_info(token):
     """Print all the information stored in `token`.
 
-    @type token: `ply.lex.LexToken`."""
+    @type token: `ply.lex.LexToken`.
+    """
     print('type: ', token.type)
     print('value: ', token.value)
     print('line number: ', token.lineno)
