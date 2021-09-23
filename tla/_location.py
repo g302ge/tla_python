@@ -21,7 +21,8 @@ class Pt:
 
     def __init__(self, line, bol, col):
         self.line = line
-        self.bol = bol  # beginning of line (offset)
+        self.bol = bol  # beginning of line (offset
+            # from beginning of file)
         self.col = col  # column number from beginning of line
 
     # let string_of_pt ?(file="<nofile>") l =
