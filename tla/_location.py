@@ -13,7 +13,11 @@
 #               col : int ;
 #             }
 class Pt:
-    """Point in file."""
+    """Point in string.
+
+    The string is typically the contents of
+    a source file.
+    """
 
     def __init__(self, line, bol, col):
         self.line = line
