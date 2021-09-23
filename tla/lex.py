@@ -458,6 +458,35 @@ class Lexer:
         t.lexer.skip(1)
 
 
+def tokenize(data, omit_preamble=True):
+    """Return `list` of `Token` instances.
+
+    @param data: TLA+ source
+    @type data: `str`
+    @param omit_preamble: if `True`,
+        then parse after skipping the preamble.
+        Otherwise, if a preamble is present,
+        then raise a parsing error.
+    @type omit_preamble: `bool`
+    @return: `list` of tokens
+    @rtype: `list` of `tla.tokens.Token`
+    """
+    if omit_preamble:
+        data = _omit_preamble(data)
+    lextokens = _lex(data)
+    if (len(lextokens) >= 2 and
+            lextokens[1].value == 'MODULE'):
+        module_name = lextokens[2].value
+    else:
+        module_name = 'unknown module'
+    tokens = [
+        _map_to_token(
+            data, token,
+            module_name=module_name)
+        for token in lextokens]
+    return tokens
+
+
 def lex(data):
     data = _omit_preamble(data)
     return _lex(data)
@@ -478,6 +507,32 @@ def _omit_preamble(data):
     match = re.search(regex, data)
     n = match.start()
     return data[n:]
+
+
+def _map_to_token(
+        data, token,
+        module_name='dummy_file'):
+    # `data` is needed to find the beginning of line
+    token_ = _map_to_token_(token)
+    # print(token.__dict__)
+    # _print_lextoken_info(token)
+    # print('\n')
+    line_number = token.lineno
+    bol = find_beginning_of_line(data, token)
+    start_column_offset = token.lexpos
+    start_loc = _location.locus_of_position(
+        module_name, line_number, bol, start_column_offset)
+    assert '\n' not in token.value, (token.type, token.value)
+    stop_column_offset = token.lexpos + len(token.value)
+    stop_loc = _location.locus_of_position(
+        module_name, line_number, bol, stop_column_offset)
+    assert data[start_column_offset:
+        stop_column_offset] == token.value, (
+        data[start_column_offset:stop_column_offset],
+        token.value)
+    loc = start_loc.merge(stop_loc)
+    assert len(token.value) == loc.stop.column - loc.start.column
+    return intf.Token(token_, None, loc)
 
 
 # This mapping is a separate step because `ply.lex`
@@ -564,32 +619,6 @@ def _map_to_token_(token):
         raise ValueError(type_)
 
 
-def _map_to_token(
-        data, token,
-        module_name='dummy_file'):
-    # `data` is needed to find the beginning of line
-    token_ = _map_to_token_(token)
-    # print(token.__dict__)
-    # _print_lextoken_info(token)
-    # print('\n')
-    line_number = token.lineno
-    bol = find_beginning_of_line(data, token)
-    start_column_offset = token.lexpos
-    start_loc = _location.locus_of_position(
-        module_name, line_number, bol, start_column_offset)
-    assert '\n' not in token.value, (token.type, token.value)
-    stop_column_offset = token.lexpos + len(token.value)
-    stop_loc = _location.locus_of_position(
-        module_name, line_number, bol, stop_column_offset)
-    assert data[start_column_offset:
-        stop_column_offset] == token.value, (
-        data[start_column_offset:stop_column_offset],
-        token.value)
-    loc = start_loc.merge(stop_loc)
-    assert len(token.value) == loc.stop.column - loc.start.column
-    return intf.Token(token_, None, loc)
-
-
 def find_beginning_of_line(input, token):
     line_start = input.rfind('\n', 0, token.lexpos) + 1
     return line_start
@@ -636,32 +665,3 @@ def _join_with_newlines(tokens):
         strings.append(str(token.form))
         strings.append(' ')
     return ''.join(strings)
-
-
-def tokenize(data, omit_preamble=True):
-    """Return `list` of `Token` instances.
-
-    @param data: TLA+ source
-    @type data: `str`
-    @param omit_preamble: if `True`,
-        then parse after skipping the preamble.
-        Otherwise, if a preamble is present,
-        then raise a parsing error.
-    @type omit_preamble: `bool`
-    @return: `list` of tokens
-    @rtype: `list` of `tla.tokens.Token`
-    """
-    if omit_preamble:
-        data = _omit_preamble(data)
-    lextokens = _lex(data)
-    if (len(lextokens) >= 2 and
-            lextokens[1].value == 'MODULE'):
-        module_name = lextokens[2].value
-    else:
-        module_name = 'unknown module'
-    tokens = [
-        _map_to_token(
-            data, token,
-            module_name=module_name)
-        for token in lextokens]
-    return tokens
