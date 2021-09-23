@@ -605,10 +605,12 @@ def _print_lextoken_info(token):
 
     @type token: `ply.lex.LexToken`.
     """
-    print('type: ', token.type)
-    print('value: ', token.value)
-    print('line number: ', token.lineno)
-    print('offset: ', token.lexpos)
+    print(
+        f'type: {token.type}\n'
+        f'value: {token.value}\n'
+        f'line number: {token.lineno}\n'
+        f'offset: {token.lexpos}\n'
+        f'type: {token.type}')
 
 
 def _join_with_newlines(tokens):
