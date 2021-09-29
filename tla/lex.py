@@ -466,6 +466,10 @@ class Lexer:
 def tokenize(data, omit_preamble=True):
     """Return `list` of `Token` instances.
 
+    Line numbers are from the start of
+    the root module (i.e., the preamble
+    is not counted in line numbers).
+
     @param data: TLA+ source
     @type data: `str`
     @param omit_preamble: if `True`,
@@ -637,6 +641,13 @@ def find_beginning_of_line(input, token):
 
 
 def find_column(input, token):
+    """Return start column of `token`.
+
+    @return: number of column where
+        `token` starts, with
+        `column \in 1..len(input)`
+    @rtype: `int`
+    """
     line_start = input.rfind('\n', 0, token.lexpos) + 1
     return (token.lexpos - line_start) + 1
 
