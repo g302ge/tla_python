@@ -666,6 +666,10 @@ def find_column(input, token):
     """
     line_start = input.rfind('\n', 0, token.lexpos) + 1
     column = (token.lexpos - line_start) + 1
+    if column < 1 or column > n_chars:
+        raise AssertionError(
+            f'expected `column \in 1..{n_chars} '
+            f'(computed `{column = }`)')
     return column
 
 
