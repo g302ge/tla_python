@@ -5,7 +5,8 @@
 #
 # This module is based on the file:
 #
-# https://github.com/tlaplus/tlapm/blob/master/src/alexer.mll
+# https://github.com/tlaplus/tlapm/blob/master/
+#     src/alexer.mll
 #
 import logging
 import re
@@ -395,7 +396,8 @@ class Lexer:
         r'|\|\-|\|=|\\cdot|@@|:>|<:|\\in|\\'
         r'|\.\.\.|\.\.|!!|\#\#|\$\$|\$|\?\?|\\sqcap'
         r'|\\sqcup|\\uplus|\\wr|\+\+|\+|%%|%|\|\|'
-        r'|\||\-\-|\-|\&\&|\&|\*\*|\*|//|/|\\bigcirc|\\bullet'
+        r'|\||\-\-|\-|\&\&|\&|\*\*|\*'
+        r'|//|/|\\bigcirc|\\bullet'
         r'|\\div|\\star|\^\^|\^')
 
     def t_INFIX_OPERATOR_LEADSTO(self, t):
@@ -439,9 +441,11 @@ class Lexer:
         return t
 
     # t_ignore is reserved by lex to provide
-    # much more efficient internal handling by lex
+    # much more efficient
+    # internal handling by lex
     #
-    # A string containing ignored characters (spaces)
+    # A string containing ignored
+    # characters (spaces)
     t_ignore = r' '  # whitesp
 
     def t_NEWLINE(self, t):
@@ -450,7 +454,8 @@ class Lexer:
 
     def t_tab(self, t):
         r'\t'
-        raise ValueError('TAB characters are unsupported.')
+        raise ValueError(
+            'TAB characters are unsupported.')
 
     def t_error(self, t):
         logger.error(
@@ -512,7 +517,8 @@ def _omit_preamble(data):
 def _map_to_token(
         data, token,
         module_name='dummy_file'):
-    # `data` is needed to find the beginning of line
+    # `data` is needed to find
+    # the beginning of line
     token_ = _map_to_token_(token)
     # print(token.__dict__)
     # _print_lextoken_info(token)
@@ -521,11 +527,13 @@ def _map_to_token(
     bol = find_beginning_of_line(data, token)
     start_column_offset = token.lexpos
     start_loc = _location.locus_of_position(
-        module_name, line_number, bol, start_column_offset)
+        module_name, line_number,
+        bol, start_column_offset)
     assert '\n' not in token.value, (token.type, token.value)
     stop_column_offset = token.lexpos + len(token.value)
     stop_loc = _location.locus_of_position(
-        module_name, line_number, bol, stop_column_offset)
+        module_name, line_number,
+        bol, stop_column_offset)
     assert data[start_column_offset:
         stop_column_offset] == token.value, (
         data[start_column_offset:stop_column_offset],
@@ -547,7 +555,8 @@ def _map_to_token_(token):
     elif type_ == 'PUNCTUATION':
         return intf.PUNCT(token.value)
     elif type_ == 'STEP_NUMBER':
-        step_level = re.findall('<([0-9]+)>', token.value)[0]
+        step_level = re.findall(
+            '<([0-9]+)>', token.value)[0]
         match = re.search(r'(\.)+', token.value)
         if match is None:
             n = 0
@@ -555,8 +564,11 @@ def _map_to_token_(token):
             n = len(match.group())
             assert n >= 1, match.group()
         step_name_regex = '<[0-9]+>([a-zA-Z0-9_]*)'
-        step_name = re.findall(step_name_regex, token.value)[0]
-        return intf.ST(intf.StepNum(step_level), step_name, n)
+        step_name = re.findall(
+            step_name_regex, token.value)[0]
+        return intf.ST(
+            intf.StepNum(step_level),
+            step_name, n)
     elif type_ == 'STEP_NUMBER_PLUS':
         assert token.value[:3] == '<+>', token.value
         n = len(token.value[3:])
