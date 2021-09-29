@@ -665,7 +665,8 @@ def find_column(input, token):
     @rtype: `int`
     """
     line_start = input.rfind('\n', 0, token.lexpos) + 1
-    return (token.lexpos - line_start) + 1
+    column = (token.lexpos - line_start) + 1
+    return column
 
 
 def _print_lextoken_info(token):
