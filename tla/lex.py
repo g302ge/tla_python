@@ -86,8 +86,8 @@ PREFIX_OPERATORS = {
     'UNCHANGED',
     'UNION',
     }
-letter   = '[a-zA-Z]'
-numeral  = '[0-9]'
+letter = '[a-zA-Z]'
+numeral = '[0-9]'
 # namechar = letter | numeral | _
 namechar = '[a-zA-Z0-9_]'.format(
     letter=letter, numeral=numeral)
@@ -95,7 +95,7 @@ name = f'({namechar})*{letter}({namechar})*'
 
 
 class Lexer:
-    '''Lexer for the TLA+ specification language.'''
+    """Lexer for the TLA+ specification language."""
 
     states = (
         ('multilinecomment', 'exclusive'),
