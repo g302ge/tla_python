@@ -46,7 +46,7 @@ def test_lexer():
     """Test lexing and conversions between tokens."""
     data = MODULE_FOO
     data = lex._omit_preamble(data)
-    lextokens = _lex(data)
+    lextokens = lex._lex(data)
     # Token_ instances
     tokens_ = [
         lex._map_to_token_(token)
