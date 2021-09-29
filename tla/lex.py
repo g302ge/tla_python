@@ -533,17 +533,27 @@ def _map_to_token(
     start_loc = _location.locus_of_position(
         module_name, line_number,
         bol, start_column_offset)
-    assert '\n' not in token.value, (token.type, token.value)
+    if '\n' in token.value:
+        raise AssertionError(
+            token.type, token.value)
     stop_column_offset = token.lexpos + len(token.value)
     stop_loc = _location.locus_of_position(
         module_name, line_number,
         bol, stop_column_offset)
-    assert data[start_column_offset:
-        stop_column_offset] == token.value, (
-        data[start_column_offset:stop_column_offset],
-        token.value)
+    if data[start_column_offset:
+            stop_column_offset] != token.value:
+        raise AssertionError(
+            data[
+                start_column_offset:
+                stop_column_offset],
+            token.value)
     loc = start_loc.merge(stop_loc)
-    assert len(token.value) == loc.stop.column - loc.start.column
+    if (len(token.value) !=
+            loc.stop.column - loc.start.column):
+        raise AssertionError(
+            token.value,
+            loc.stop.column,
+            loc.start.column)
     return intf.Token(token_, None, loc)
 
 
@@ -566,7 +576,8 @@ def _map_to_token_(token):
             n = 0
         else:
             n = len(match.group())
-            assert n >= 1, match.group()
+            if n < 1:
+                raise AssertionError(match.group())
         step_name_regex = '<[0-9]+>([a-zA-Z0-9_]*)'
         step_name = re.findall(
             step_name_regex, token.value)[0]
@@ -574,11 +585,13 @@ def _map_to_token_(token):
             intf.StepNum(step_level),
             step_name, n)
     elif type_ == 'STEP_NUMBER_PLUS':
-        assert token.value[:3] == '<+>', token.value
+        if token.value[:3] != '<+>':
+            raise AssertionError(token.value)
         n = len(token.value[3:])
         return intf.ST(intf.StepPlus(), None, n)
     elif type_ == 'STEP_NUMBER_STAR':
-        assert token.value[:3] == '<*>', token.value
+        if token.value[:3] != '<*>':
+            raise AssertionError(token.value)
         n = len(token.value[3:])
         return intf.ST(intf.StepStar(), None, n)
     # operators
@@ -602,7 +615,8 @@ def _map_to_token_(token):
     # misc
     elif type_ == 'BINARY_INTEGER':
         # TODO: test
-        assert token.value[:2] == '\\b', token.value
+        if token.value[:2] != '\\b':
+            raise AssertionError(token.value)
         return intf.NUM(token.value[2:], None)
     elif type_ == 'COMMENT':
         raise ValueError('unexpected COMMENT')
@@ -611,7 +625,8 @@ def _map_to_token_(token):
         return intf.NUM(a, b)
     elif type_ == 'HEXADECIMAL_INTEGER':
         # TODO: test
-        assert token.value[:2] == '\\h', token.value
+        if token.value[:2] != '\\h':
+            raise AssertionError(token.value)
         value = int(token.value[2:], 16)
         return intf.NUM(str(value), None)
     elif type_ == 'IDENTIFIER':
@@ -622,7 +637,8 @@ def _map_to_token_(token):
         raise ValueError('unexpected LINECOMMENT')
     elif type_ == 'OCTAL_INTEGER':
         # TODO: test
-        assert token.value[:2] == '\\o', token.value
+        if token.value[:2] != '\\o':
+            raise AssertionError(token.value)
         value = int(token.value[2:], 8)
         return intf.NUM(str(value), None)
     elif type_ == 'PRAGMAS':
@@ -671,17 +687,21 @@ def _join_with_newlines(tokens):
     for token in tokens:
         token_line = token.loc.start.line
         diff = token_line - current_line
-        assert diff >= 0, (
-            token_line, current_line)
+        if diff < 0:
+            raise AssertionError(
+                token_line, current_line)
         # commented due to multi-line comments
-        # assert diff <= 1, (
-        #     current_line, token_line)
+        # if diff > 1:
+        #     raise AssertionError(
+        #         current_line, token_line)
         if token_line > current_line:
             # update current line
             # current_line += 1
             current_line += diff
-            assert current_line == token_line, (
-                current_line, token_line)
+            if current_line != token_line:
+                raise AssertionError(
+                    current_line,
+                    token_line)
             # output newlines
             newlines = '\n' * diff
             strings.append(newlines)
